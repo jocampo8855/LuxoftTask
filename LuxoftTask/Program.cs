@@ -10,6 +10,8 @@ namespace LuxoftTask
     {
         static void Main(string[] args)
         {
+            //Add Logger
+            Logger logger = new Logger();
             //property used to catch bills and coins entered by customer
             List<double> _amount = new List<double>();
 
@@ -22,7 +24,6 @@ namespace LuxoftTask
 
                 Console.WriteLine("Please enter price of the item:");
                 double price = Double.Parse(Console.ReadLine());
-
 
                 //ask for money until complete payment
                 Cashier cashier = new Cashier();
@@ -46,7 +47,7 @@ namespace LuxoftTask
             }
             catch(Exception ex)
             {
-                throw ex;
+                logger.Log(ex.Message);
             }
         }
     }

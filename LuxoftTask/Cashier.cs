@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LuxoftTask.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace LuxoftTask
 {
-    public class Cashier
+    public class Cashier:ICashier
     {
         //validate amount of money is equal or bigger than price
         public bool ValidatePayment(double price, double amount)
