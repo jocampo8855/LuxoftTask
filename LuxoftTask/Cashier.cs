@@ -35,18 +35,13 @@ namespace LuxoftTask
                 _countryDenomination.Reverse();
                 foreach (double denomination in _countryDenomination)
                 {
-                    if (denomination > change)
-                        continue;
-                    else
+                    if (amountChange.Sum() != change && denomination <= change)
                     {
-                        while((denomination + amountChange.Sum() <= change))
+                        while ((denomination + amountChange.Sum() <= change))
                         {
                             amountChange.Add(denomination);
                         }
                     }
-
-                    if (amountChange.Sum() == change)
-                        break;
                 }
             }
 
