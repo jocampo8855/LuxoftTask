@@ -9,6 +9,11 @@ namespace LuxoftTask
 {
     public class Cashier:ICashier
     {
+        List<double> _countryDenomination;
+        public Cashier(List<double> countryDenomination)
+        {
+            _countryDenomination = countryDenomination;
+        }
         //validate amount of money is equal or bigger than price
         public bool ValidatePayment(double price, double amount)
         {
@@ -22,23 +27,21 @@ namespace LuxoftTask
             List<double> amountChange = new List<double>();
 
             //validate if they pay exactly
-            if (amount.Sum() == price)
-                return amountChange;
-            else
+            if (amount.Sum() != price)
             {
                 var change = amount.Sum() - price;
 
                 //Revert Denomination positions 
-                MachineConfig.countryDenomination.Reverse();
-                foreach (double den in MachineConfig.countryDenomination)
+                _countryDenomination.Reverse();
+                foreach (double denomination in _countryDenomination)
                 {
-                    if (den > change)
+                    if (denomination > change)
                         continue;
                     else
                     {
-                        while((den + amountChange.Sum() <= change))
+                        while((denomination + amountChange.Sum() <= change))
                         {
-                            amountChange.Add(den);
+                            amountChange.Add(denomination);
                         }
                     }
 

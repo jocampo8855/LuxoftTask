@@ -44,10 +44,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Cashier.cs" />
+    <Compile Include="Exceptions\InvalidDenominationException.cs" />
     <Compile Include="Interfaces\ICashier.cs" />
     <Compile Include="Interfaces\ILogger.cs" />
     <Compile Include="Logger.cs" />
-    <Compile Include="MachineConfig.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

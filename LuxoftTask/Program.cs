@@ -1,5 +1,7 @@
-﻿using System;
+﻿using LuxoftTask.Exceptions;
+using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,6 +14,8 @@ namespace LuxoftTask
         {
             //Add Logger
             Logger logger = new Logger();
+            //get denomination list from settings
+            List<double> countryDenomination = new List<double>();
             //property used to catch bills and coins entered by customer
             List<double> _amount = new List<double>();
 
@@ -19,18 +23,24 @@ namespace LuxoftTask
             {
                 //variable used to set currency
                 Console.WriteLine("Please enter your country code");
-                var country = Console.ReadLine();
-                MachineConfig.Setup(country);
+                var countryCode = Console.ReadLine();
+                var currencyList = ConfigurationSettings.AppSettings[countryCode];
+                countryDenomination = currencyList.Split(',').Select(Double.Parse).ToList();
 
                 Console.WriteLine("Please enter price of the item:");
                 double price = Double.Parse(Console.ReadLine());
 
                 //ask for money until complete payment
-                Cashier cashier = new Cashier();
+                Cashier cashier = new Cashier(countryDenomination);
                 do
                 {
                     Console.WriteLine("Please complete payment: ");
-                    _amount.Add(Double.Parse(Console.ReadLine()));
+                    var cash = Double.Parse(Console.ReadLine());
+                    //validate if denomination entered is valid or setn custom exception
+                    if (!countryDenomination.Contains(cash))
+                        throw (new InvalidDenominationException("Invalid denomination for country"));
+                    else
+                        _amount.Add(cash);
                 }
                 while (cashier.ValidatePayment(price, _amount.Sum()) == false);
 
