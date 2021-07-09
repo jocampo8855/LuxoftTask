@@ -38,12 +38,21 @@ namespace LuxoftTask
                     do
                     {
                         Console.WriteLine("Please complete payment: ");
-                        var cash = Double.Parse(Console.ReadLine());
-                        //validate if denomination entered is valid or setn custom exception
-                        if (!countryDenomination.Contains(cash))
-                            throw (new InvalidDenominationException("Invalid denomination for country"));
+                        var readPayment= Console.ReadLine();
+                        double cash;
+                        if(Double.TryParse(readPayment, out cash))
+                        {
+                            //validate if denomination entered is valid or setn custom exception
+                            if (!countryDenomination.Contains(cash))
+                                throw (new InvalidDenominationException("Invalid denomination for country"));
+                            else
+                                _amount.Add(cash);
+                        }
                         else
-                            _amount.Add(cash);
+                        {
+                            Console.WriteLine($"Unable to parse {readPayment} while payment");
+                            break;
+                        }
                     }
                     while (cashier.ValidatePayment(price, _amount.Sum()) == false);
 
